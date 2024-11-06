@@ -27,7 +27,7 @@ data "azurerm_virtual_network" "vnet" {
   name                = "labvnet2"
   resource_group_name = data.azurerm_resource_group.rg.name
   location            = data.azurerm_resource_group.rg.location
-  address_space       = ["10.1.1.0/16"]
+  address_space       = ["10.10.1.0/16"]
 }
 
 data "azurerm_subnet" "subnet" {
@@ -35,4 +35,64 @@ data "azurerm_subnet" "subnet" {
   resource_group_name  = data.azurerm_resource_group.rg.name
   virtual_network_name = data.azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.10.1.0/24"]
+}
+
+resource "azurerm_network_security_group" "nsg1" {
+  name                = "NextOps-nsg1"
+  resource_group_name = "${data.azurerm_resource_group.rg1.name}"
+  location            = "${data.azurerm_resource_group.rg1.location}"
+}
+
+# NOTE: this allows RDP from any network
+resource "azurerm_network_security_rule" "rdp" {
+  name                        = "rdp"
+  resource_group_name         = "${data.azurerm_resource_group.rg1.name}"
+  network_security_group_name = "${azurerm_network_security_group.nsg1.name}"
+  priority                    = 102
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "*"
+  destination_port_range      = "3389"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+}
+
+resource "azurerm_subnet_network_security_group_association" "nsg_subnet_assoc" {
+  subnet_id                 = data.azurerm_subnet.subnet1.id
+  network_security_group_id = azurerm_network_security_group.nsg1.id
+}
+
+resource "azurerm_network_interface" "nic1" {
+  name                = "NextOpsVM-nic"
+  resource_group_name = data.azurerm_resource_group.rg1.name
+  location            = data.azurerm_resource_group.rg1.location
+
+  ip_configuration {
+    name                          = "internal"
+    subnet_id                     = data.azurerm_subnet.subnet1.id
+    private_ip_address_allocation = "Dynamic"
+  }
+}
+
+resource "azurerm_windows_virtual_machine" "main" {
+  name                            = "NextOpsVM"
+  resource_group_name             = data.azurerm_resource_group.rg1.name
+  location                        = data.azurerm_resource_group.rg1.location
+  size                            = "Standard_B1s"
+  admin_username                  = "adminuser"
+  admin_password                  = "P@ssw0rd1234!"
+  network_interface_ids = [ azurerm_network_interface.nic1.id ]
+
+  source_image_reference {
+    publisher = "MicrosoftWindowsServer"
+    offer     = "WindowsServer"
+    sku       = "2019-Datacenter"
+    version   = "latest"
+  }
+
+  os_disk {
+    storage_account_type = "Standard_LRS"
+    caching              = "ReadWrite"
+  }
 }
