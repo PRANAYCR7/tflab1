@@ -8,11 +8,11 @@ variable "rglocation" {
     description = "used to select the location"
     defualt = "eastus"
 }
-variable "pranayvnet" {
+variable "vnet" {
     type = string
     description = "used to select the vnet"
 }
-variable "pranaysubnet" {
+variable "subnet" {
     type = string
     description = "used to create a subnet"
 }
