@@ -1,2 +1,2 @@
 rgname = "pranayrg"
-location = "eastus"
+rglocation = "eastus"
