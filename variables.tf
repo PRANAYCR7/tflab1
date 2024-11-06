@@ -23,4 +23,12 @@ variable "subnet_address_space" {
    type = string
    description = "used to create the subnet address space"
 }
+variable "storage_account_name" {
+   type = string
+   description = "this variable is used to name the SA account"
+}
+variable "container_name" {
+   type = string
+   description = "this is the name of the container"
+}
 
