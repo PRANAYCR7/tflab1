@@ -25,7 +25,7 @@ terraform {
     storage_account_name = "pranaysa1"                                 # Can be passed via `-backend-config=`"storage_account_name=<storage account name>"` in the `init` command.
     container_name       = "tfstate"                                  # Can be passed via `-backend-config=`"container_name=<container name>"` in the `init` command.
     key                  = "prod.terraform.tfstate"                   # Can be passed via `-backend-config=`"key=<blob key name>"` in the `init` command.
-    access_key           = "lu31yf+GcJN/w3+HeQ3CMc2fXl20KAm+RoqTxmIr65NBs8SgwzwjK9psSYUwZwO3smALWvv6uneR+AStEnbFCw=="  # Can also be set via `ARM_ACCESS_KEY` environment variable.
+    access_key           = "9LarcZloldCxPb5dZC5vek4rpEW5786RBflaWBtyCyoPppl2qjajhnqZrc0wyWGodW+OhoR0YP6f+AStLCluSg=="  # Can also be set via `ARM_ACCESS_KEY` environment variable.
   }
 }
 
