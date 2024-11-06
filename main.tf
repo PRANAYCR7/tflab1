@@ -21,7 +21,7 @@ tenant_id            = "7974832e-4b9b-49e6-bc93-b5695f510220"
 
 resource "azurerm_resource_group" "rg" {
   name     = "${var.rgname}"
-  location = "${var.location}"
+  location = "${var.rglocation}"
 }
 
 resource "azurerm_virtual_network" "vnet" {
