@@ -5,7 +5,7 @@ variable "rgname" {
 variable "rglocation" {
     type = string
     description = "used to select the location"
-    defualt = "eastus"
+    default = "eastus"
 }
 variable "vnet" {
     type = string
@@ -17,10 +17,10 @@ variable "subnet" {
 }
 variable "vnet_address_space" {
    type = string
-   description = "used to select the vnet"
+   description = "used to select the vnet address space"
 }
 variable "subnet_address_space" {
    type = string
-   description = "used to create the subnet"
+   description = "used to create the subnet address space"
 }
 
