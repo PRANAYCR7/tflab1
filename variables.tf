@@ -6,4 +6,9 @@ variable "rgname" {
 variable "rglocation" {
     type = string
     description = "used to select the location"
+    defualt = "eastus"
+}
+variable "pranayvnet" {
+    type = string
+    description = "used to select the vnet"
 }
