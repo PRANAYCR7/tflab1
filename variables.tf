@@ -12,3 +12,7 @@ variable "pranayvnet" {
     type = string
     description = "used to select the vnet"
 }
+variable "pranaysubnet" {
+    type = string
+    description = "used to create a subnet"
+}
