@@ -25,13 +25,13 @@ data "azurerm_resource_group" "rg1" {
 
 data "azurerm_virtual_network" "vnet1" {
   name                = "labvnet2"
-  resource_group_name = data.azurerm_resource_group.rg.name
+  resource_group_name = data.azurerm_resource_group.rg1.name
 }
 
 data "azurerm_subnet" "subnet1" {
   name                 = "labsubnet2"
-  resource_group_name  = data.azurerm_resource_group.rg.name
-  virtual_network_name = data.azurerm_virtual_network.vnet.name
+  resource_group_name  = data.azurerm_resource_group.rg1.name
+  virtual_network_name = data.azurerm_virtual_network.vnet1.name
 }
 
 resource "azurerm_network_security_group" "nsg1" {
