@@ -19,31 +19,20 @@ tenant_id            = "7974832e-4b9b-49e6-bc93-b5695f510220"
   
 }
 
-terraform {
-  backend "azurerm" {
-    resource_group_name  = "pranayrg1"             # Can be passed via `-backend-config=`"resource_group_name=<resource group name>"` in the `init` command.
-    storage_account_name = "pranaysa1"                                 # Can be passed via `-backend-config=`"storage_account_name=<storage account name>"` in the `init` command.
-    container_name       = "tfstate"                                  # Can be passed via `-backend-config=`"container_name=<container name>"` in the `init` command.
-    key                  = "prod.terraform.tfstate"                   # Can be passed via `-backend-config=`"key=<blob key name>"` in the `init` command.
-    access_key           = "9LarcZloldCxPb5dZC5vek4rpEW5786RBflaWBtyCyoPppl2qjajhnqZrc0wyWGodW+OhoR0YP6f+AStLCluSg=="  # Can also be set via `ARM_ACCESS_KEY` environment variable.
-  }
+data "azurerm_resource_group" "rg" {
+  name     = "labrg2"
 }
 
-resource "azurerm_resource_group" "rg" {
-  name     = "${var.rgname}"
-  location = "${var.rglocation}"
+data "azurerm_virtual_network" "vnet" {
+  name                = "labvnet2"
+  resource_group_name = data.azurerm_resource_group.rg.name
+  location            = data.azurerm_resource_group.rg.location
+  address_space       = ["10.1.1.0/16"]
 }
 
-resource "azurerm_virtual_network" "vnet" {
-  name                = "${var.vnet}"
-  resource_group_name = azurerm_resource_group.rg.name
-  location            = azurerm_resource_group.rg.location
-  address_space       = ["${var.vnet_address_space}"]
-}
-
-resource "azurerm_subnet" "subnet" {
-  name                 = "${var.subnet}"
-  resource_group_name  = azurerm_resource_group.rg.name
-  virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["${var.subnet_address_space}"]
+data "azurerm_subnet" "subnet" {
+  name                 = "labsubnet2"
+  resource_group_name  = data.azurerm_resource_group.rg.name
+  virtual_network_name = data.azurerm_virtual_network.vnet.name
+  address_prefixes     = ["10.10.1.0/24"]
 }
