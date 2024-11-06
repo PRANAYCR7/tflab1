@@ -28,12 +28,12 @@ resource "azurerm_virtual_network" "vnet" {
   name                = "${var.vnet}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-  address_space       = ["10.10.0.0/16"]
+  vnet_address_space       = "${var.vnet_address_space}"
 }
 
 resource "azurerm_subnet" "subnet" {
   name                 = "${var.subnet}"
   resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.vnet.name
-  address_prefixes     = ["10.10.1.0/24"]
+  subnet_address_prefixes     = "${var.subnet_address_space}"
 }
